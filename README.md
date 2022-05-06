@@ -1,5 +1,3 @@
-# mapgl-threejs-example
+# mapgl-3d-models
 
 MapGL and ThreeJS integration example
-
-[Demo](https://trufi.github.io/mapgl-threejs-example/)
