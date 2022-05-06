@@ -1,0 +1,234 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.2.75",
+        "version" : "2.0"
+    },
+    "extensionsUsed" : [
+        "KHR_draco_mesh_compression"
+    ],
+    "extensionsRequired" : [
+        "KHR_draco_mesh_compression"
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Cayan_Tower_Skyscraper_max_convert"
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Tower_day",
+            "normalTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 1,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.43959638476371765
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Elements_day",
+            "normalTexture" : {
+                "index" : 2,
+                "texCoord" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 3,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.43959638476371765
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Cayan_Tower_Skyscraper_max_convert",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 0,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 2
+                            }
+                        }
+                    },
+                    "indices" : 3,
+                    "material" : 0,
+                    "mode" : 4
+                },
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 1,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 6
+                            }
+                        }
+                    },
+                    "indices" : 7,
+                    "material" : 1,
+                    "mode" : 4
+                }
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "source" : 0
+        },
+        {
+            "source" : 1
+        },
+        {
+            "source" : 2
+        },
+        {
+            "source" : 3
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "tower_Normal",
+            "uri" : "tower_Normal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "tower_Diffuse-tower_Refract_2",
+            "uri" : "tower_Diffuse-tower_Refract_2.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "elements_Normal",
+            "uri" : "elements_Normal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "elements_Diffuse-elements_Refract_2",
+            "uri" : "elements_Diffuse-elements_Refract_2.png"
+        }
+    ],
+    "accessors" : [
+        {
+            "componentType" : 5126,
+            "count" : 233268,
+            "max" : [
+                2637.297119140625,
+                30740.978515625,
+                3319.88330078125
+            ],
+            "min" : [
+                -3354.413818359375,
+                0.00033000000985339284,
+                -3319.833251953125
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 233268,
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 233268,
+            "type" : "VEC2"
+        },
+        {
+            "componentType" : 5125,
+            "count" : 476472,
+            "type" : "SCALAR"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 484117,
+            "max" : [
+                3637.297119140625,
+                30710.685546875,
+                4319.8330078125
+            ],
+            "min" : [
+                -3637.297119140625,
+                0.8688399791717529,
+                -4319.8330078125
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 484117,
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 484117,
+            "type" : "VEC2"
+        },
+        {
+            "componentType" : 5125,
+            "count" : 1048362,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 1224571,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 2132673,
+            "byteOffset" : 1224572
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 3357248,
+            "uri" : "Cayan.bin"
+        }
+    ]
+}
