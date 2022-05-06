@@ -20,7 +20,7 @@
         "dev": "webpack serve",
         "prettier": "prettier --check \"./**/*.{ts,tsx,js,json,html,css}\"",
         "test": "npm run prettier && npm run build",
-        "predeploy": "npm run build",
+        "predeploy": "rm -rf public && mkdir public && npm run build && cp ./*.html ./public && cp -a ./dist ./public/dist && cp -a ./data ./public/data",
         "deploy": "gh-pages -d public"
     },
     "dependencies": {
@@ -31,6 +31,7 @@
         "@trufi/utils": "0.0.4",
         "@types/three": "^0.140.0",
         "fork-ts-checker-webpack-plugin": "^6.2.12",
+        "gh-pages": "^3.2.3",
         "prettier": "^2.3.2",
         "three": "^0.140.0",
         "ts-loader": "^9.2.3",
