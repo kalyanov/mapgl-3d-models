@@ -80,10 +80,6 @@ control
 const camera = new THREE.Camera();
 camera.updateMatrixWorld = () => {};
 
-// const pointLight = new THREE.PointLight(0xffffff, 1);
-// pointLight.position.set(1, 1, 2);
-// camera.add(pointLight);
-
 const renderer = new THREE.WebGLRenderer({
     canvas: map.getCanvas(),
     context: map.getWebGLContext(),
@@ -98,28 +94,39 @@ renderer.autoClear = false;
 
 const scene = new THREE.Scene();
 
-// const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-// const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+// const ambientLight = new THREE.AmbientLight(0x040404, 0.1);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 
-const ambientLight = new THREE.AmbientLight(0x404040, 1);
-const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+// const ambientLight = new THREE.AmbientLight(0x404040, 1);
+// const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 
 // const directionalLight2 = new THREE.DirectionalLight(0xffffff, 10);
 
-// directionalLight.position.set(0, 0, 1);
+directionalLight.position.set(0, 0, 1);
 // directionalLight.position.set(-0.5, 0, 0.866); // ~60º;
 
 // directionalLight.position.set(0…, 0.5, 1);
-directionalLight.position.set(0.5, 0, 0.866); // ~60º;
-// directionalLight.position.set(0, 0, 0); // ~60º;
+// directionalLight.position.set(0.5, 0, 0.866); // ~60º;
+// directionalLight.position.set(1, 1, 1);
 
 // camera.add(directionalLight);
 // scene.add(camera);
 
+const pointLight = new THREE.PointLight(0xffffff, 0.7);
+// pointLight.position.set(0, 0, );
+// ambientLight.position.set(0, 0, -0.5);
+// directionalLight.position.set(0, 0, 1);
+
+camera.add(pointLight);
+scene.add(camera);
+
 scene.add(
-    ambientLight,
+    //     // ambientLight,
     directionalLight, //directionalLight2
 );
+
+const helper = new THREE.DirectionalLightHelper(directionalLight);
+scene.add(helper);
 
 const loadingManager = new THREE.LoadingManager();
 const dracoLoader = new DRACOLoader(loadingManager).setDecoderPath(
