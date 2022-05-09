@@ -123,7 +123,7 @@ function getSelectHTML() {
 
 new mapgl.Control(
     map,
-    `<div class="bim-button"><img src="/data/bimLogo.png" width="24" /> BIM Mode</div>`,
+    `<div class="bim-button"><img src="data/bimLogo.png" width="24" /> BIM Mode</div>`,
     {
         position: 'bottomLeft',
     },
