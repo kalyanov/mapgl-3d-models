@@ -2,12 +2,10 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-// import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass';
 
 import { mapPointFromLngLat } from '@trufi/utils/mapPoint/fromLngLat';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { runFlight, Scenario } from './lib/flight';
 
 interface Model {
     path: string;
@@ -16,69 +14,71 @@ interface Model {
     displayName: string;
 }
 
+const MODEL_FOLDER = './data/dubai_municipality_warm';
+
 const MODELS: Model[] = [
     {
-        path: './data/dubai_municipality/building/dubaimunicipality.gltf',
+        path: `${MODEL_FOLDER}/building/dubaimunicipality.gltf`,
         type: 'building',
         name: 'building',
         displayName: '4124763-4',
     },
     {
-        path: './data/dubai_municipality/floors/01b1/01b1.gltf',
+        path: `${MODEL_FOLDER}/floors/01b1/01b1.gltf`,
         type: 'floor',
         name: '01b1',
         displayName: '4124763-4-B1',
     },
     {
-        path: './data/dubai_municipality/floors/02g/02g.gltf',
+        path: `${MODEL_FOLDER}/floors/02g/02g.gltf`,
         type: 'floor',
         name: '02g',
         displayName: '4124763-4-G',
     },
     {
-        path: './data/dubai_municipality/floors/03/03.gltf',
+        path: `${MODEL_FOLDER}/floors/03/03.gltf`,
         type: 'floor',
         name: '03',
         displayName: '4124763-4-F01',
     },
     {
-        path: './data/dubai_municipality/floors/04f/04f.gltf',
+        path: `${MODEL_FOLDER}/floors/04f/04f.gltf`,
         type: 'floor',
         name: '04f',
         displayName: '4124763-4-F02',
     },
     {
-        path: './data/dubai_municipality/floors/05f/05f.gltf',
+        path: `${MODEL_FOLDER}/floors/05f/05f.gltf`,
         type: 'floor',
         name: '05f',
         displayName: '4124763-4-F03',
     },
     {
-        path: './data/dubai_municipality/floors/06f/06f.gltf',
+        path: `${MODEL_FOLDER}/floors/06f/06f.gltf`,
         type: 'floor',
         name: '06f',
         displayName: '4124763-4-F04',
     },
     {
-        path: './data/dubai_municipality/floors/07f/07f.gltf',
+        path: `${MODEL_FOLDER}/floors/07f/07f.gltf`,
         type: 'floor',
         name: '07f',
         displayName: '4124763-4-F05',
     },
     {
-        path: './data/dubai_municipality/floors/08f/08f.gltf',
+        path: `${MODEL_FOLDER}/floors/08f/08f.gltf`,
         type: 'floor',
         name: '08f',
         displayName: '4124763-4-F06',
     },
     {
-        path: './data/dubai_municipality/floors/09r1/09r1.gltf',
+        path: `${MODEL_FOLDER}/floors/09r1/09r1.gltf`,
         type: 'floor',
         name: '09r1',
         displayName: '4124763-4-R1',
     },
     {
-        path: './data/dubai_municipality/floors/10r2/10r2.gltf',
+        path: `${MODEL_FOLDER}/floors/10r2/10r2.gltf`,
         type: 'floor',
         name: '10r2',
         displayName: '4124763-4-R2',
@@ -100,8 +100,7 @@ const map = ((window as any).map = new mapgl.Map('map', {
     zoom: 19.5,
     pitch: 45,
     rotation: -15,
-    // pitch: 0,
-    // rotation: 0,
+    maxZoom: 22,
 }));
 (window as any).map = map;
 
@@ -121,7 +120,30 @@ function getSelectHTML() {
     ).join()}</select>`;
 }
 
-new mapgl.Control(
+control
+    .getContainer()
+    .querySelector('select')!
+    .addEventListener('change', (e) => {
+        const name = (e.currentTarget as HTMLSelectElement)?.value ?? DEFAULT_MODEL_NAME;
+        toggleModel(name);
+    });
+
+function toggleModel(name: string) {
+    const newModel = modelDataMap[name];
+    if (!newModel) {
+        return;
+    }
+
+    if (renderedModel) {
+        scene.remove(renderedModel);
+    }
+    renderedModel = modelDataMap[name];
+
+    // TODO: Надо просто рендер сцены дернуть а не вот это вот.
+    triggerMapRerender();
+}
+
+const bimButton = new mapgl.Control(
     map,
     `<div class="bim-button"><img src="data/bimLogo.png" width="24" /> BIM Mode</div>`,
     {
@@ -129,16 +151,26 @@ new mapgl.Control(
     },
 );
 
-control
+const step: Scenario = { zoom: 20, rotation: 30, duration: 3000, center: modelCoords };
+
+bimButton
     .getContainer()
-    .querySelector('select')!
-    .addEventListener('change', (e) => {
-        const name = (e.currentTarget as HTMLSelectElement)?.value ?? DEFAULT_MODEL_NAME;
-        if (renderedModel) {
-            scene.remove(renderedModel);
-        }
-        renderedModel = modelDataMap[name];
-        triggerMapRerender();
+    .querySelector('div')!
+    .addEventListener('click', () => {
+        runFlight(
+            [
+                { ...step },
+                { f: () => toggleModel(MODELS[1].name) },
+                { sleep: 1000 },
+                {
+                    ...step,
+                    rotation: 75,
+                },
+                { f: () => toggleModel(MODELS[2].name) },
+                { sleep: 1000 },
+            ],
+            map,
+        );
     });
 
 const camera = new THREE.Camera();
@@ -152,60 +184,57 @@ const renderer = new THREE.WebGLRenderer({
 });
 
 // renderer.physicallyCorrectLights = true;
-// renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.outputEncoding = THREE.sRGBEncoding;
 
 renderer.autoClear = false;
 // renderer.setClearColor(0xff0000, 0);
 
 const scene = new THREE.Scene();
 
-// const ambientLight = new THREE.AmbientLight(0x040404, 0.1);
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-
 // const ambientLight = new THREE.AmbientLight(0x404040, 1);
-// const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 
 // const directionalLight2 = new THREE.DirectionalLight(0xffffff, 10);
 
-directionalLight.position.set(0, 0, 1);
 // directionalLight.position.set(-0.5, 0, 0.866); // ~60º;
 
 // directionalLight.position.set(0…, 0.5, 1);
-// directionalLight.position.set(0.5, 0, 0.866); // ~60º;
-// directionalLight.position.set(1, 1, 1);
 
 // camera.add(directionalLight);
 // scene.add(camera);
 
-const pointLight = new THREE.PointLight(0xffffff, 0.2);
 // pointLight.position.set(0, 0);
 // ambientLight.position.set(0, 0, -0.5);
 // directionalLight.position.set(0, 0, 1);
 
-const light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1.1);
 // light.position.set(0, 0, 1); // ~60º;
-light.position.set(0.5, 0, 0.866); // ~60º;
 
-camera.add(pointLight);
-scene.add(light);
-scene.add(camera);
-
+// const ambientLight = new THREE.AmbientLight(0x040404, 1);
+// const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+// // directionalLight.position.set(0, 0, 1);
+// directionalLight.position.set(0.5, 0, 0.866); // ~60º;
 // scene.add(
-//     //     // ambientLight,
-//     // directionalLight, //directionalLight2
+//     ambientLight,
+//     directionalLight, //directionalLight2
 // );
 
-const helper = new THREE.DirectionalLightHelper(directionalLight);
-scene.add(helper);
+// const pointLight = new THREE.PointLight(0xffffff, 1);
+// directionalLight.position.set(1, 1, 1);
 
-// const composer = new EffectComposer(renderer);
-// composer.addPass(new RenderPass(scene, camera));
+// directionalLight.position.set(0, 0, 1);
 
-// const pass = new SMAAPass(
-//     window.innerWidth * renderer.getPixelRatio(),
-//     window.innerHeight * renderer.getPixelRatio(),
-// );
-// composer.addPass(pass);
+// const light = new THREE.HemisphereLight(0x040404, 0xffffff, 2);
+// const light = new THREE.HemisphereLight(0xf1b36f, 0xbb8a55, 1);
+// const light = new THREE.HemisphereLight(0xbb8a55, 0xf1b36f, 0.5);
+// const light = new THREE.HemisphereLight(0xffffff, 0x040404, 1);
+// const light = new THREE.HemisphereLight(0x040404, 0xffffff, 2);
+
+// scene.add(camera);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(0.5, 0, 0.866); // ~60º;
+
+scene.add(ambientLight, directionalLight);
 
 const loadingManager = new THREE.LoadingManager();
 const dracoLoader = new DRACOLoader(loadingManager).setDecoderPath(
@@ -362,8 +391,6 @@ map.on('styleload', () => {
             camera.matrixWorldInverse.fromArray(map.getProjectionMatrix());
             renderer.resetState();
             renderer.render(scene, camera);
-
-            // composer.render();
         },
     });
 });
