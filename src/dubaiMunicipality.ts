@@ -2,6 +2,10 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+// import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass';
+
 import { mapPointFromLngLat } from '@trufi/utils/mapPoint/fromLngLat';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
@@ -9,6 +13,7 @@ interface Model {
     path: string;
     type: string;
     name: string;
+    displayName: string;
 }
 
 const MODELS: Model[] = [
@@ -16,17 +21,68 @@ const MODELS: Model[] = [
         path: './data/dubai_municipality/building/dubaimunicipality.gltf',
         type: 'building',
         name: 'building',
+        displayName: '4124763-4',
     },
-    { path: './data/dubai_municipality/floors/01b1/01b1.gltf', type: 'floor', name: '01b1' },
-    { path: './data/dubai_municipality/floors/02g/02g.gltf', type: 'floor', name: '02g' },
-    { path: './data/dubai_municipality/floors/03/03.gltf', type: 'floor', name: '03' },
-    { path: './data/dubai_municipality/floors/04f/04f.gltf', type: 'floor', name: '04f' },
-    { path: './data/dubai_municipality/floors/05f/05f.gltf', type: 'floor', name: '05f' },
-    { path: './data/dubai_municipality/floors/06f/06f.gltf', type: 'floor', name: '06f' },
-    { path: './data/dubai_municipality/floors/07f/07f.gltf', type: 'floor', name: '07f' },
-    { path: './data/dubai_municipality/floors/08f/08f.gltf', type: 'floor', name: '08f' },
-    { path: './data/dubai_municipality/floors/09r1/09r1.gltf', type: 'floor', name: '09r1' },
-    { path: './data/dubai_municipality/floors/10r2/10r2.gltf', type: 'floor', name: '10r2' },
+    {
+        path: './data/dubai_municipality/floors/01b1/01b1.gltf',
+        type: 'floor',
+        name: '01b1',
+        displayName: '4124763-4-B1',
+    },
+    {
+        path: './data/dubai_municipality/floors/02g/02g.gltf',
+        type: 'floor',
+        name: '02g',
+        displayName: '4124763-4-G',
+    },
+    {
+        path: './data/dubai_municipality/floors/03/03.gltf',
+        type: 'floor',
+        name: '03',
+        displayName: '4124763-4-F01',
+    },
+    {
+        path: './data/dubai_municipality/floors/04f/04f.gltf',
+        type: 'floor',
+        name: '04f',
+        displayName: '4124763-4-F02',
+    },
+    {
+        path: './data/dubai_municipality/floors/05f/05f.gltf',
+        type: 'floor',
+        name: '05f',
+        displayName: '4124763-4-F03',
+    },
+    {
+        path: './data/dubai_municipality/floors/06f/06f.gltf',
+        type: 'floor',
+        name: '06f',
+        displayName: '4124763-4-F04',
+    },
+    {
+        path: './data/dubai_municipality/floors/07f/07f.gltf',
+        type: 'floor',
+        name: '07f',
+        displayName: '4124763-4-F05',
+    },
+    {
+        path: './data/dubai_municipality/floors/08f/08f.gltf',
+        type: 'floor',
+        name: '08f',
+        displayName: '4124763-4-F06',
+    },
+    {
+        path: './data/dubai_municipality/floors/09r1/09r1.gltf',
+        type: 'floor',
+        name: '09r1',
+        displayName: '4124763-4-R1',
+    },
+    {
+        path: './data/dubai_municipality/floors/10r2/10r2.gltf',
+        type: 'floor',
+        name: '10r2',
+        displayName: '4124763-4-R2',
+    },
 ];
 
 const modelDataMap: { [name: string]: THREE.Object3D | undefined } = {};
@@ -58,12 +114,20 @@ const control = new mapgl.Control(map, getSelectHTML(), {
 
 function getSelectHTML() {
     return `<select>${MODELS.map(
-        ({ name }) =>
+        ({ name, displayName }) =>
             `<option value="${name}"${
                 name === DEFAULT_MODEL_NAME ? ' selected' : ''
-            }>${name}</option>`,
+            }>${displayName}</option>`,
     ).join()}</select>`;
 }
+
+new mapgl.Control(
+    map,
+    `<div class="bim-button"><img src="/data/bimLogo.png" width="24" /> BIM Mode</div>`,
+    {
+        position: 'bottomLeft',
+    },
+);
 
 control
     .getContainer()
@@ -91,6 +155,7 @@ const renderer = new THREE.WebGLRenderer({
 // renderer.outputEncoding = THREE.sRGBEncoding;
 
 renderer.autoClear = false;
+// renderer.setClearColor(0xff0000, 0);
 
 const scene = new THREE.Scene();
 
@@ -112,21 +177,35 @@ directionalLight.position.set(0, 0, 1);
 // camera.add(directionalLight);
 // scene.add(camera);
 
-const pointLight = new THREE.PointLight(0xffffff, 0.7);
-// pointLight.position.set(0, 0, );
+const pointLight = new THREE.PointLight(0xffffff, 0.2);
+// pointLight.position.set(0, 0);
 // ambientLight.position.set(0, 0, -0.5);
 // directionalLight.position.set(0, 0, 1);
 
+const light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1.1);
+// light.position.set(0, 0, 1); // ~60º;
+light.position.set(0.5, 0, 0.866); // ~60º;
+
 camera.add(pointLight);
+scene.add(light);
 scene.add(camera);
 
-scene.add(
-    //     // ambientLight,
-    directionalLight, //directionalLight2
-);
+// scene.add(
+//     //     // ambientLight,
+//     // directionalLight, //directionalLight2
+// );
 
 const helper = new THREE.DirectionalLightHelper(directionalLight);
 scene.add(helper);
+
+// const composer = new EffectComposer(renderer);
+// composer.addPass(new RenderPass(scene, camera));
+
+// const pass = new SMAAPass(
+//     window.innerWidth * renderer.getPixelRatio(),
+//     window.innerHeight * renderer.getPixelRatio(),
+// );
+// composer.addPass(pass);
 
 const loadingManager = new THREE.LoadingManager();
 const dracoLoader = new DRACOLoader(loadingManager).setDecoderPath(
@@ -283,6 +362,8 @@ map.on('styleload', () => {
             camera.matrixWorldInverse.fromArray(map.getProjectionMatrix());
             renderer.resetState();
             renderer.render(scene, camera);
+
+            // composer.render();
         },
     });
 });
