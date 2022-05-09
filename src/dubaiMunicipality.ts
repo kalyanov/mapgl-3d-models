@@ -142,8 +142,7 @@ function toggleModel(name: string) {
     // TODO: Надо просто рендер сцены дернуть а не вот это вот.
     triggerMapRerender();
 }
-
-const bimButton = new mapgl.Control(
+export const bimButton = new mapgl.Control(
     map,
     `<div class="bim-button"><img src="data/bimLogo.png" width="24" /> BIM Mode</div>`,
     {
@@ -153,25 +152,29 @@ const bimButton = new mapgl.Control(
 
 const step: Scenario = { zoom: 20, rotation: 30, duration: 3000, center: modelCoords };
 
-bimButton
-    .getContainer()
-    .querySelector('div')!
-    .addEventListener('click', () => {
-        runFlight(
-            [
-                { ...step },
-                { f: () => toggleModel(MODELS[1].name) },
-                { sleep: 1000 },
-                {
-                    ...step,
-                    rotation: 75,
-                },
-                { f: () => toggleModel(MODELS[2].name) },
-                { sleep: 1000 },
-            ],
-            map,
-        );
-    });
+// bimButton
+//     .getContainer()
+//     .querySelector('div')!
+//     .addEventListener('click', () => {
+//         fight();
+//     });
+
+export const fight = () => {
+    runFlight(
+        [
+            { ...step },
+            { f: () => toggleModel(MODELS[1].name) },
+            { sleep: 1000 },
+            {
+                ...step,
+                rotation: 75,
+            },
+            { f: () => toggleModel(MODELS[2].name) },
+            { sleep: 1000 },
+        ],
+        map,
+    );
+};
 
 const camera = new THREE.Camera();
 camera.updateMatrixWorld = () => {};
