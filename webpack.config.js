@@ -29,6 +29,7 @@ module.exports = (env) => {
         entry: {
             cayan: './src/cayan.ts',
             dubaiMunicipality: './src/dubaiMunicipality.ts',
+            dubaiMunicipalitySliced: './src/dubaiMunicipalitySliced.ts',
         },
 
         output: {

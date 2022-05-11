@@ -92,7 +92,7 @@ const modelCoords = [55.361648, 25.221288];
 const BUILDING_ID = '13933647002597790';
 const DEFAULT_MODEL_NAME = 'building';
 
-let renderedModel: THREE.Object3D | undefined;
+let renderedModels: THREE.Object3D[] = [];
 
 const map = ((window as any).map = new mapgl.Map('map', {
     key: '042b5b75-f847-4f2a-b695-b5f58adc9dfd',
@@ -129,19 +129,31 @@ control
     });
 
 function toggleModel(name: string) {
-    const newModel = modelDataMap[name];
-    if (!newModel) {
+    if (!modelDataMap[name]) {
         return;
     }
 
-    if (renderedModel) {
-        scene.remove(renderedModel);
+    if (renderedModels.length) {
+        scene.remove(...renderedModels);
     }
-    renderedModel = modelDataMap[name];
+
+    renderedModels = [];
+    for (let i = 0; i < MODELS.length; i++) {
+        const model = MODELS[i];
+        const modelData = modelDataMap[model.name];
+        if (modelData && (name === MODELS[0].name || i !== 0)) {
+            renderedModels.push(modelData);
+        }
+
+        if (model.name === name) {
+            break;
+        }
+    }
 
     triggerMapRerender();
 }
-export const bimButton = new mapgl.Control(
+
+new mapgl.Control(
     map,
     `<div class="bim-button"><img src="data/bimLogo.png" width="24" /> BIM Mode</div>`,
     {
@@ -150,14 +162,6 @@ export const bimButton = new mapgl.Control(
 );
 
 const step: Scenario = { zoom: 20, rotation: 30, duration: 3000, center: modelCoords };
-
-// Эксперимент с полетами
-// bimButton
-//     .getContainer()
-//     .querySelector('div')!
-//     .addEventListener('click', () => {
-//         fight();
-//     });
 
 export const fight = () => {
     runFlight(
@@ -186,7 +190,7 @@ const renderer = new THREE.WebGLRenderer({
     antialias: window.devicePixelRatio < 2,
 });
 
-// renderer.physicallyCorrectLights = true;
+renderer.physicallyCorrectLights = true;
 renderer.outputEncoding = THREE.sRGBEncoding;
 
 renderer.autoClear = false;
@@ -232,9 +236,9 @@ const scene = new THREE.Scene();
 // const light = new THREE.HemisphereLight(0x040404, 0xffffff, 2);
 
 // scene.add(camera);
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
 directionalLight.position.set(0.5, 0, 0.866); // ~60º;
 
 scene.add(ambientLight, directionalLight);
@@ -269,7 +273,10 @@ Promise.all(
         });
     }),
 ).then(() => {
-    renderedModel = modelDataMap[DEFAULT_MODEL_NAME];
+    const defaultModel = modelDataMap[DEFAULT_MODEL_NAME];
+    if (defaultModel) {
+        renderedModels = [defaultModel];
+    }
     triggerMapRerender();
 });
 
@@ -381,14 +388,14 @@ map.on('styleload', () => {
         type: 'custom',
         minzoom: 16,
         render: (_gl: WebGLRenderingContext) => {
-            if (!renderedModel) {
+            if (!renderedModels.length) {
                 return;
             }
 
             if (map.getStyleZoom() < 16) {
-                scene.remove(renderedModel);
+                scene.remove(...renderedModels);
             } else {
-                scene.add(renderedModel);
+                scene.add(...renderedModels);
             }
 
             camera.matrixWorldInverse.fromArray(map.getProjectionMatrix());
