@@ -176,7 +176,7 @@
         {
             "bufferView" : 4,
             "componentType" : 5126,
-            "count" : 4926,
+            "count" : 4929,
             "max" : [
                 17.74771499633789,
                 8.269999504089355,
@@ -192,13 +192,13 @@
         {
             "bufferView" : 5,
             "componentType" : 5126,
-            "count" : 4926,
+            "count" : 4929,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 4926,
+            "count" : 4929,
             "type" : "VEC2"
         },
         {
@@ -265,43 +265,43 @@
         },
         {
             "buffer" : 0,
-            "byteLength" : 59112,
+            "byteLength" : 59148,
             "byteOffset" : 94740
         },
         {
             "buffer" : 0,
-            "byteLength" : 59112,
-            "byteOffset" : 153852
+            "byteLength" : 59148,
+            "byteOffset" : 153888
         },
         {
             "buffer" : 0,
-            "byteLength" : 39408,
-            "byteOffset" : 212964
+            "byteLength" : 39432,
+            "byteOffset" : 213036
         },
         {
             "buffer" : 0,
             "byteLength" : 15108,
-            "byteOffset" : 252372
+            "byteOffset" : 252468
         },
         {
             "buffer" : 0,
             "byteLength" : 58572,
-            "byteOffset" : 267480
+            "byteOffset" : 267576
         },
         {
             "buffer" : 0,
             "byteLength" : 58572,
-            "byteOffset" : 326052
+            "byteOffset" : 326148
         },
         {
             "buffer" : 0,
             "byteLength" : 39048,
-            "byteOffset" : 384624
+            "byteOffset" : 384720
         },
         {
             "buffer" : 0,
             "byteLength" : 14766,
-            "byteOffset" : 423672
+            "byteOffset" : 423768
         }
     ],
     "samplers" : [
@@ -312,7 +312,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 438440,
+            "byteLength" : 438536,
             "uri" : "03.bin"
         }
     ]
