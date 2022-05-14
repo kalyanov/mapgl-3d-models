@@ -87,7 +87,7 @@ const MODELS: Model[] = [
 
 const modelDataMap: { [name: string]: THREE.Object3D | undefined } = {};
 
-const mapCenter = [55.361648, 25.221288];
+const mapCenter = [55.36155606339799, 25.221251810665166];
 const modelCoords = [55.361648, 25.221288];
 const BUILDING_ID = '13933647002597790';
 const DEFAULT_MODEL_NAME = 'building';
@@ -99,7 +99,7 @@ const map = ((window as any).map = new mapgl.Map('map', {
     center: mapCenter,
     zoom: 19.5,
     pitch: 45,
-    rotation: -15,
+    rotation: 140,
     maxZoom: 22,
 }));
 (window as any).map = map;
@@ -259,11 +259,11 @@ Promise.all(
                 (gltf) => {
                     model.add(gltf.scene);
                     model.rotateX(0.5 * Math.PI);
-                    model.rotateY(0.91 * Math.PI);
+                    model.rotateY(-0.09 * Math.PI);
                     const mapPointCenter = mapPointFromLngLat(modelCoords);
                     const k = 114;
                     model.scale.set(k, k, k);
-                    model.position.set(mapPointCenter[0] - 350, mapPointCenter[1] - 500, 0);
+                    model.position.set(mapPointCenter[0] - 200, mapPointCenter[1] - 150, 0);
                     modelDataMap[name] = model;
                     resolve(model);
                 },
