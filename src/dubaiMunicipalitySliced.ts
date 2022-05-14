@@ -406,5 +406,5 @@ map.on('styleload', () => {
 });
 
 function triggerMapRerender() {
-    map.patchStyleState({ rerender: true });
+    (map as any)._impl.state.needRerender = true;
 }

@@ -196,7 +196,7 @@ const scene = new THREE.Scene();
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.7);
 directionalLight.position.set(0.5, 0, 0.866); // ~60º;
 
 scene.add(ambientLight, directionalLight);
@@ -361,5 +361,5 @@ map.on('styleload', () => {
 });
 
 function triggerMapRerender() {
-    map.patchStyleState({ rerender: true });
+    (map as any)._impl.state.needRerender = true;
 }
