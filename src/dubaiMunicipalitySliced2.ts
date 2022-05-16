@@ -14,7 +14,7 @@ interface Model {
     displayName: string;
 }
 
-const MODEL_FOLDER = './data/dubai_municipality_sliced_warm';
+const MODEL_FOLDER = './data/dubai_municipality_sliced_warm_new';
 
 const MODELS: Model[] = [
     {
