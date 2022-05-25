@@ -1,17 +1,12 @@
 {
-    "name": "mapgl-threejs-example",
+    "name": "mapgl-3d-models",
     "version": "0.0.1",
     "private": true,
-    "description": "MapGL and ThreeJS integration example",
+    "description": "MapGL 3D Models",
     "main": "dist/index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Trufi/mapgl-threejs-example.git"
-    },
     "author": {
-        "name": "Mstislav Zhivodkov",
-        "email": "stevemyz@gmail.com",
-        "url": "https://trufi.github.io/"
+        "name": "Oleg Kalyanov",
+        "email": "oleg1556@gmail.com"
     },
     "license": "MIT",
     "scripts": {
@@ -20,24 +15,25 @@
         "dev": "webpack serve",
         "prettier": "prettier --check \"./**/*.{ts,tsx,js,json,html,css}\"",
         "test": "npm run prettier && npm run build",
-        "predeploy": "rm -rf public && mkdir public && npm run build && cp ./*.html ./public && cp -a ./dist ./public/dist && cp -a ./data ./public/data",
+        "predeploy": "rm -rf public && npm run build",
         "deploy": "gh-pages -d public"
     },
     "dependencies": {
-        "tslib": "^2.3.0"
+        "tslib": "^2.4.0"
     },
     "devDependencies": {
         "@2gis/mapgl": "1.28.0",
         "@trufi/utils": "0.0.4",
         "@types/three": "^0.140.0",
-        "fork-ts-checker-webpack-plugin": "^6.2.12",
+        "copy-webpack-plugin": "^11.0.0",
+        "fork-ts-checker-webpack-plugin": "^7.2.11",
         "gh-pages": "^3.2.3",
-        "prettier": "^2.3.2",
-        "three": "^0.140.0",
-        "ts-loader": "^9.2.3",
-        "typescript": "^4.3.5",
-        "webpack": "^5.44.0",
-        "webpack-cli": "^4.7.2",
-        "webpack-dev-server": "^3.11.2"
+        "prettier": "^2.6.2",
+        "three": "^0.140.2",
+        "ts-loader": "^9.3.0",
+        "typescript": "^4.6.4",
+        "webpack": "^5.72.1",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.0.0"
     }
 }

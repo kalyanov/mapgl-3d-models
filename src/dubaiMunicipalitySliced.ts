@@ -14,71 +14,71 @@ interface Model {
     displayName: string;
 }
 
-const MODEL_FOLDER = './data/dubai_municipality_warm';
+const MODEL_FOLDER = './models/dubai_municipality';
 
 const MODELS: Model[] = [
     {
-        path: `${MODEL_FOLDER}/building/dubaimunicipality.gltf`,
+        path: `${MODEL_FOLDER}/dubaimunicipality.gltf`,
         type: 'building',
         name: 'building',
         displayName: '4124763-4',
     },
     {
-        path: `${MODEL_FOLDER}/floors/01b1/01b1.gltf`,
+        path: `${MODEL_FOLDER}/01b1.gltf`,
         type: 'floor',
         name: '01b1',
         displayName: '4124763-4-B1',
     },
     {
-        path: `${MODEL_FOLDER}/floors/02g/02g.gltf`,
+        path: `${MODEL_FOLDER}/02g.gltf`,
         type: 'floor',
         name: '02g',
         displayName: '4124763-4-G',
     },
     {
-        path: `${MODEL_FOLDER}/floors/03/03.gltf`,
+        path: `${MODEL_FOLDER}/03.gltf`,
         type: 'floor',
         name: '03',
         displayName: '4124763-4-F01',
     },
     {
-        path: `${MODEL_FOLDER}/floors/04f/04f.gltf`,
+        path: `${MODEL_FOLDER}/04f.gltf`,
         type: 'floor',
         name: '04f',
         displayName: '4124763-4-F02',
     },
     {
-        path: `${MODEL_FOLDER}/floors/05f/05f.gltf`,
+        path: `${MODEL_FOLDER}/05f.gltf`,
         type: 'floor',
         name: '05f',
         displayName: '4124763-4-F03',
     },
     {
-        path: `${MODEL_FOLDER}/floors/06f/06f.gltf`,
+        path: `${MODEL_FOLDER}/06f.gltf`,
         type: 'floor',
         name: '06f',
         displayName: '4124763-4-F04',
     },
     {
-        path: `${MODEL_FOLDER}/floors/07f/07f.gltf`,
+        path: `${MODEL_FOLDER}/07f.gltf`,
         type: 'floor',
         name: '07f',
         displayName: '4124763-4-F05',
     },
     {
-        path: `${MODEL_FOLDER}/floors/08f/08f.gltf`,
+        path: `${MODEL_FOLDER}/08f.gltf`,
         type: 'floor',
         name: '08f',
         displayName: '4124763-4-F06',
     },
     {
-        path: `${MODEL_FOLDER}/floors/09r1/09r1.gltf`,
+        path: `${MODEL_FOLDER}/09r1.gltf`,
         type: 'floor',
         name: '09r1',
         displayName: '4124763-4-R1',
     },
     {
-        path: `${MODEL_FOLDER}/floors/10r2/10r2.gltf`,
+        path: `${MODEL_FOLDER}/10r2.gltf`,
         type: 'floor',
         name: '10r2',
         displayName: '4124763-4-R2',
@@ -155,7 +155,7 @@ function toggleModel(name: string) {
 
 new mapgl.Control(
     map,
-    `<div class="bim-button"><img src="data/bimLogo.png" width="24" /> BIM Mode</div>`,
+    `<div class="bim-button"><img src="images/bimLogo.png" width="24" /> BIM Mode</div>`,
     {
         position: 'bottomLeft',
     },

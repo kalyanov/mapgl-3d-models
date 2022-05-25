@@ -1,5 +1,6 @@
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (env) => {
     const mode = env.production ? 'production' : 'development';
@@ -14,9 +15,6 @@ module.exports = (env) => {
                     exclude: /node_modules/,
                     use: {
                         loader: 'ts-loader',
-                        options: {
-                            transpileOnly: true,
-                        },
                     },
                 },
             ],
@@ -34,23 +32,20 @@ module.exports = (env) => {
         },
 
         output: {
-            filename: '[name].js',
-            path: path.resolve(__dirname, 'dist'),
-            publicPath: '/dist',
+            filename: 'js/[name].js',
+            path: path.resolve(__dirname, 'public'),
         },
 
-        plugins: [new ForkTsCheckerWebpackPlugin()],
+        plugins: [
+            new ForkTsCheckerWebpackPlugin(),
+            new CopyPlugin({ patterns: ['static'] })
+        ],
 
-        devtool: mode === 'production' ? false : 'source-map',
+        devtool: mode === 'development' ? 'source-map' : false,
 
         devServer: {
             host: 'localhost',
             port: 3000,
-            stats: {
-                modules: false,
-            },
-            disableHostCheck: true,
-            publicPath: '/dist',
         },
     };
 };

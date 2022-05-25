@@ -14,7 +14,7 @@ interface Model {
     displayName: string;
 }
 
-const MODEL_FOLDER = './data/dubai_municipality_sliced_warm_new';
+const MODEL_FOLDER = './models/dubai_municipality_sliced';
 
 const MODELS: Model[] = [
     {
@@ -143,7 +143,7 @@ function toggleModel(name: string) {
 }
 export const bimButton = new mapgl.Control(
     map,
-    `<div class="bim-button"><img src="data/bimLogo.png" width="24" /> BIM Mode</div>`,
+    `<div class="bim-button"><img src="images/bimLogo.png" width="24" /> BIM Mode</div>`,
     {
         position: 'bottomLeft',
     },
